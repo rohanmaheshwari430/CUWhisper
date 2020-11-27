@@ -32,13 +32,31 @@ type Post = {
     "body": string,
     "date": string,
    // "comments": string[],
-    "id": number, //still need to figure out how to auto assign numerical id
    // "user": User
 };
 
 const posts = db.collection('posts');
 
-let postCounter  = 0; //stores posts collection size
+let postCounter = 0; //stores posts collection size
+
+app.get('/getPosts', async (req,res) => { 
+    const allPosts = await posts.get(); 
+    const localPosts: Post[] = [];
+    
+    for(const doc of allPosts.docs) { 
+        let post:Post = doc.data() as Post; //converting each post from firebase doc format to local post format
+        localPosts.push(post);
+    }
+
+    res.send(localPosts);
+
+});
+
+app.delete('/deletePost', async (req, res) => { //how to use firebase authentication to validate delete priviledge
+    const id = req.body; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
+    posts.doc(id.toString()).delete();
+    postCounter -= 1;
+}); 
 
 app.post('/createPost', (req, res) => {
     const post: Post = req.body;
@@ -52,20 +70,21 @@ app.post('/createPost', (req, res) => {
     postCounter += 1;
 });
 
-app.get('/getPosts', async (req,res) => {
-    const allPosts = await posts.get(); 
-    const localPosts: Post[] = [];
-    
-    for(const doc of allPosts.docs) { 
-        let post:Post = doc.data() as Post; //converting each post from firebase doc format to local post format
-        localPosts.push(post);
+app.post('/updatePost', async (req, res) => { //need use firebase authentication to validate update priviledge
+    const content: string = req.body.content;
+    const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be made to this endpoint
+    if(content == null) {
+        res.send(false);
     }
 
-    res.send(localPosts);
-
-});
-
-
+    posts.doc(id.toString()).update({"body": content})
+    res.send(true);
+})
 
 app.listen(8080, () => console.log("Server started"));
 
+/*
+firebase rules
+
+
+*/

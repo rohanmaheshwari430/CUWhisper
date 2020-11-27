@@ -23,17 +23,7 @@ const db = firebase_admin_1.default.firestore();
 const app = express_1.default();
 app.use(express_1.default.json());
 const posts = db.collection('posts');
-let PostCounter = 0;
-app.post('/createPost', (req, res) => {
-    const post = req.body;
-    if (post.title == null || post.body == null || post.date == null) { //checking if any fields are empty
-        res.send(false);
-    }
-    const newPost = posts.doc(PostCounter.toString()); //creating an empty document in posts collection
-    newPost.set(post); //filling in the posts fields 
-    res.send(true); //sending true for confirmation that post was created
-    PostCounter += 1;
-});
+let postCounter = 0; //stores posts collection size
 app.get('/getPosts', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const allPosts = yield posts.get();
     const localPosts = [];
@@ -43,4 +33,33 @@ app.get('/getPosts', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     res.send(localPosts);
 }));
+app.delete('/deletePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.body; //this is the post id that should be retrieved by the front end
+    posts.doc(id.toString()).delete();
+    postCounter -= 1;
+}));
+app.post('/createPost', (req, res) => {
+    const post = req.body;
+    if (post.title == null || post.body == null || post.date == null) { //checking if any fields are empty
+        res.send(false);
+    }
+    const newPost = posts.doc(postCounter.toString()); //creating an empty document in posts collection
+    newPost.set(post); //filling in the posts fields 
+    res.send(true); //sending true for confirmation that post was created
+    postCounter += 1;
+});
+app.post('/updatePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const content = req.body.content;
+    const id = req.body.id;
+    if (content == null) {
+        res.send(false);
+    }
+    posts.doc(id.toString()).update({ "body": content });
+    res.send(true);
+}));
 app.listen(8080, () => console.log("Server started"));
+/*
+firebase rules
+
+
+*/ 
