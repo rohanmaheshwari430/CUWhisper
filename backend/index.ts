@@ -36,7 +36,7 @@ type Post = {
    // "user": User
 };
 
-const posts = db.collection('academic');
+const posts = db.collection('posts');
 
 
 
@@ -62,9 +62,15 @@ app.get('/getPosts', async (req,res) => {
 });
 
 app.delete('/deletePost', async (req, res) => { //how to use firebase authentication to validate delete priviledge
-    const id = req.body; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
-    posts.doc(id.toString()).delete();
-    postCounter -= 1;
+    const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
+    if((await posts.doc(id.toString()).get()).exists) {
+        posts.doc(id.toString()).delete();
+        res.send(true)
+    }
+    res.send(false)
+    
+    
+  //  postCounter -= 1;
 }); 
 
 app.post('/createPost', (req, res) => {

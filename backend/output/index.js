@@ -32,15 +32,24 @@ app.get('/getPosts', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         localPosts.push(post);
     }
     res.send(localPosts);
+    /*
+    To display the posts, the component calling this endpoint will filter out the posts related to that category using a tagging feature.
+    For example, if the academic component is calling this endpoint, it will retrieve all posts, filter the academic posts by the key "academic"
+    and then sort it by highest to lowest id (representing latest to oldest posts)
+    */
 }));
 app.delete('/deletePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.body; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
-    posts.doc(id.toString()).delete();
-    postCounter -= 1;
+    const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
+    if ((yield posts.doc(id.toString()).get()).exists) {
+        posts.doc(id.toString()).delete();
+        res.send(true);
+    }
+    res.send(false);
+    //  postCounter -= 1;
 }));
 app.post('/createPost', (req, res) => {
     const post = req.body;
-    if (post.title == null || post.body == null || post.date == null) { //checking if any fields are empty
+    if (post.title == null || post.body == null || post.date == null || post.type == null) { //checking if any fields are empty
         res.send(false);
     }
     const newPost = posts.doc(postCounter.toString()); //creating an empty document in posts collection
