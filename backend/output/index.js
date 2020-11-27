@@ -34,7 +34,7 @@ app.get('/getPosts', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     res.send(localPosts);
 }));
 app.delete('/deletePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.body; //this is the post id that should be retrieved by the front end
+    const id = req.body; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
     posts.doc(id.toString()).delete();
     postCounter -= 1;
 }));
@@ -50,7 +50,7 @@ app.post('/createPost', (req, res) => {
 });
 app.post('/updatePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const content = req.body.content;
-    const id = req.body.id;
+    const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be made to this endpoint
     if (content == null) {
         res.send(false);
     }
