@@ -61,6 +61,7 @@ app.get('/getPosts', async (req,res) => {
 
 });
 
+//delete
 app.delete('/deletePost', async (req, res) => { //how to use firebase authentication to validate delete priviledge
     const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
     if((await posts.doc(id.toString()).get()).exists) {
@@ -86,6 +87,8 @@ app.post('/createPost', (req, res) => {
 });
 
 app.post('/updatePost', async (req, res) => { //need use firebase authentication to validate update priviledge
+    //compare email of post author with email of logged in user
+    
     const content: string = req.body.content;
     const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be made to this endpoint
     if(content == null) {
