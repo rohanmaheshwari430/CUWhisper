@@ -4,9 +4,6 @@ import cornell_logo from './cornell_logo.png';
 import whisperlogo from './whisperlogo.png';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import Academics from './Academics';
-import Clubs from './Clubs';
-import Career from './Career';
-import Button from '@material-ui/core/Button';
 
 function Home() {
 
@@ -41,20 +38,14 @@ function Home() {
         <div>
            <Router>
                 <div style={ulStyle}>
-                    <Button component={Link} to="/Academics">Academics</Button>
-                    <Button component={Link} to="/Clubs">Clubs</Button>                          
-                    <Button component={Link} to="/Career">Career</Button>     
+                    <Link to="/Academics">Academics</Link>                        
+                    <button>Clubs</button>
+                    <button>Career</button>
                  </div>
 
                 <Switch>
                     <Route path="/Academics">
                         <Academics/>
-                    </Route>
-                    <Route path="/Clubs">
-                        <Clubs/>
-                    </Route>
-                    <Route path="/Career">
-                        <Career/>
                     </Route>
                 </Switch>
            </Router>
