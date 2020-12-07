@@ -5,7 +5,7 @@ import 'firebase/auth';
 import firebase from 'firebase/app';
 import Button from '@material-ui/core/Button';
 
-type Post = {title: string, body: string, date: string, type: string};
+type Post = {title: string, body: string, date: string, type: string, email?: string};
 
 function Academics() {
     const posts:Post[]=[
@@ -33,6 +33,7 @@ function Academics() {
     return (
         
         <div>
+            <Button>Sign in</Button>
             <Button onClick={() => firebase.auth().signOut()}>Sign Out</Button> <br/>
             --Academics-- <br/>
             <input type="text" placeholder="Search..." value={search} onChange={updateSearch}></input>

@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import Academics from './Academics';
 import Clubs from './Clubs';
 import Career from './Career';
+import HomeContent from './HomeContent';
 import Button from '@material-ui/core/Button';
 
 function Home() {
@@ -24,11 +25,13 @@ function Home() {
             
             <Router>
                 <div style={ulStyle}>
+                    <Button component={Link} to="/">Home</Button>
                     <Button component={Link} to="/Academics">Academics</Button>
                     <Button component={Link} to="/Clubs">Clubs</Button>                          
-                    <Button component={Link} to="/Career">Career</Button>     
+                    <Button component={Link} to="/Career">Career</Button> 
+                    <Button>Create Post</Button>
+                    
                  </div>
-
                 <Switch>
                     <Route path="/Academics">
                         <Academics/>
@@ -38,6 +41,9 @@ function Home() {
                     </Route>
                     <Route path="/Career">
                         <Career/>
+                    </Route>
+                    <Route path="/">
+                      <HomeContent/>
                     </Route>
                 </Switch>
            </Router>
