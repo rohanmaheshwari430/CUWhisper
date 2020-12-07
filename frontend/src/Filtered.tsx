@@ -1,3 +1,4 @@
+import Button from '@material-ui/core/Button';
 import React from 'react';
 
 type Post = {title: string, body: string, date: string, type: string};
@@ -22,9 +23,13 @@ const Filtered = ({type, search, list}: Props) =>{
                     Title: {post.title} <br/>
                     Date: {post.date} <br/>
                     Body: {post.body} <br/>
-                    ----------------------------------------------------- <br/>
+                    
+                    <Button>Edit</Button>
+                    ----------------------------------------------------- 
+                    <Button>Delete</Button><br/>
                 </p>
             )}
+
         </div>
     )
 }

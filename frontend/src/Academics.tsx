@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import Filtered from "./Filtered";
 import AllPosts from "./AllPosts";
+import 'firebase/auth';
+import firebase from 'firebase/app';
+import Button from '@material-ui/core/Button';
 
 type Post = {title: string, body: string, date: string, type: string};
 
@@ -26,7 +29,10 @@ function Academics() {
     }
 
     return (
+        
         <div>
+            <Button onClick={() => firebase.auth().signOut()}>Sign Out</Button> <br/>
+
             --Academics-- <br/>
             <input type="text" placeholder="Search..." value={search} onChange={updateSearch}></input>
             <label><br/> search results - "{search}": </label>
