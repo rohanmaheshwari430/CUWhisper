@@ -26,15 +26,8 @@ const Filtered = ({type, search, list}: Props) =>{
                     Date: {post.date} <br/>
                     Body: {post.body} <br/>
 
-                    
-                    <Button>Edit</Button>
-                    
-                    ----------------------------------------------------- 
-                    
-                    <Button>Delete</Button>
-                   
-                    
-                   
+                    <input type="button" value="Delete"></input><br/>
+                    ----------------------------------------------------- <br/>
                 </p>
             )}
 
