@@ -32,7 +32,6 @@ function Academics() {
         
         <div>
             <Button onClick={() => firebase.auth().signOut()}>Sign Out</Button> <br/>
-
             --Academics-- <br/>
             <input type="text" placeholder="Search..." value={search} onChange={updateSearch}></input>
             <label><br/> search results - "{search}": </label>

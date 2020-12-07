@@ -1,5 +1,6 @@
 import admin from 'firebase-admin';
 import express from 'express';
+import { resolveNaptr } from 'dns';
 
 const serviceAccount = require("./cuwhisper-firebase-adminsdk-edbp7-291d992bfa.json");
 
@@ -63,13 +64,20 @@ app.get('/getPosts', async (req,res) => {
 
 //delete
 app.delete('/deletePost', async (req, res) => { //how to use firebase authentication to validate delete priviledge
-    const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
-    if((await posts.doc(id.toString()).get()).exists) {
-        posts.doc(id.toString()).delete();
-        res.send(true)
-    }
-    res.send(false)
     
+    admin.auth()
+    .verifyIdToken(req.headers.idtoken as string)
+    .then(async() => {
+        const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
+        if((await posts.doc(id.toString()).get()).exists) {
+            posts.doc(id.toString()).delete();
+            res.send(true)
+        }
+        
+    })
+    .catch(() => {
+        res.send('Not Authenticated.');
+    })
     
   //  postCounter -= 1;
 }); 
@@ -89,20 +97,23 @@ app.post('/createPost', (req, res) => {
 app.post('/updatePost', async (req, res) => { //need use firebase authentication to validate update priviledge
     //compare email of post author with email of logged in user
     
-    const content: string = req.body.content;
-    const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be made to this endpoint
-    if(content == null) {
-        res.send(false);
-    }
+    admin.auth()
+    .verifyIdToken(req.headers.idtoken as string)
+    .then(async() => {
+        const content: string = req.body.content;
+        const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be made to this endpoint
+        if(content == null) {
+            res.send(false);
+        }
+        posts.doc(id.toString()).update({"body": content})
+        res.send(true);
+    })
+    .catch(() => {
+        res.send('Not Authenticated');
+    });
+   
 
-    posts.doc(id.toString()).update({"body": content})
-    res.send(true);
-})
+    
+});
 
 app.listen(8080, () => console.log("Server started"));
-
-/*
-firebase rules
-
-
-*/

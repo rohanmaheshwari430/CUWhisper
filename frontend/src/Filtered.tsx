@@ -1,5 +1,7 @@
 import Button from '@material-ui/core/Button';
+import firebase from 'firebase';
 import React from 'react';
+import Authenticated from './Authenticated';
 
 type Post = {title: string, body: string, date: string, type: string};
 
@@ -23,10 +25,16 @@ const Filtered = ({type, search, list}: Props) =>{
                     Title: {post.title} <br/>
                     Date: {post.date} <br/>
                     Body: {post.body} <br/>
+
                     
                     <Button>Edit</Button>
+                    
                     ----------------------------------------------------- 
-                    <Button>Delete</Button><br/>
+                    
+                    <Button>Delete</Button>
+                   
+                    
+                   
                 </p>
             )}
 
