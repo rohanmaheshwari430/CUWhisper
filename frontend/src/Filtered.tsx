@@ -22,6 +22,7 @@ const Filtered = ({type, search, list}: Props) =>{
                     Title: {post.title} <br/>
                     Date: {post.date} <br/>
                     Body: {post.body} <br/>
+                    <input type="button" value="Delete"></input><br/>
                     ----------------------------------------------------- <br/>
                 </p>
             )}
