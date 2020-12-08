@@ -15,12 +15,14 @@ const AllPosts = ({type, list, email}: Props) =>{
         <div>
             {list.map(post => (post.type===type) 
             && <p key={post.title}> 
+            <div>
             -----------------------------------------------------<br/>
             Title: {post.title} <br/>
             Date: {post.date} <br/>
             Body: {post.body} <br/>
             {email === post.email ? <div><Button>Delete</Button> <br/></div>: <span></span>}
-            ----------------------------------------------------- <br/>
+            -----------------------------------------------------
+            </div>
             </p>
             )}
         </div>

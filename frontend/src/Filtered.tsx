@@ -23,12 +23,9 @@ const Filtered = ({type, search, list, email}: Props) =>{
                     -----------------------------------------------------<br/>
                     Title: {post.title} <br/>
                     Date: {post.date} <br/>
-                    Body: {post.body} <br/>
-                    Email: {email} <br/>
-                    
-                    {email === post.email ? <div><Button>Delete</Button> <br/></div>: <span></span>}
-                    
-                    ----------------------------------------------------- <br/>
+                    Body: {post.body} <br/>                    
+                    {email === post.email ? <div><Button>Delete</Button></div>: <span></span>}
+                    -----------------------------------------------------
                 </p>
             )}
 

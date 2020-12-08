@@ -5,6 +5,7 @@ import Academics from './Academics';
 import Clubs from './Clubs';
 import Career from './Career';
 import HomeContent from './HomeContent';
+import CreatePost from './CreatePost';
 import Button from '@material-ui/core/Button';
 import firebase from 'firebase'
 import 'firebase/auth';
@@ -28,7 +29,6 @@ function Home() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
-       
     }
 
     const [user, setUser] = useState<firebase.User | null>(null);
@@ -54,6 +54,7 @@ function Home() {
                     <Button component={Link} to="/Academics">Academics</Button>
                     <Button component={Link} to="/Clubs">Clubs</Button>                          
                     <Button component={Link} to="/Career">Career</Button> 
+                    <Button component={Link} to="/CreatePost">Post</Button>
                     {!user && <FirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>}
                     {user ? <div><Button onClick={() => firebase.auth().signOut()}>Sign Out</Button> <br/> </div> : <span></span> }
                     
@@ -71,6 +72,11 @@ function Home() {
                     </Route>
                     <Route path="/Career">
                         <Career
+                        email={user?.email}
+                        />
+                    </Route>
+                    <Route path="/CreatePost">
+                        <CreatePost
                         email={user?.email}
                         />
                     </Route>
