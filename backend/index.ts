@@ -14,16 +14,6 @@ const app = express();
 app.use(express.json());
 
 /*
-User object to provide posts with author information
-Information in user object should be retrieved from firebase login authentication
-*/
-type User = {
-    "name": string,
-    "gradYear": number,
-    "college": string,
-}
-
-/*
 Post object that will contain user-defined information 
 Only the title, body, date, and comments should be public
 Id will be used to show latest posts, delete posts, etc.
@@ -32,14 +22,12 @@ type Post = {
     "title": string,
     "body": string,
     "date": string,
-    "type": string //academic, club, campus life
+    "type": string, //academic, club, campus life
    // "comments": string[],
-   // "user": User
+    "email": string
 };
 
 const posts = db.collection('posts');
-
-
 
 let postCounter = 0; //stores posts collection size
 
@@ -84,7 +72,7 @@ app.delete('/deletePost', async (req, res) => { //how to use firebase authentica
 
 app.post('/createPost', (req, res) => {
     const post: Post = req.body;
-    if(post.title == null || post.body == null || post.date == null || post.type == null) { //checking if any fields are empty
+    if(post.title == null || post.body == null || post.date == null || post.type == null || post.email == null) { //checking if any fields are empty
         res.send(false);
     }
 
