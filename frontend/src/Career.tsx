@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
 import Filtered from "./Filtered";
 import AllPosts from "./AllPosts";
+import TextField from '@material-ui/core/TextField';
 
-type Post = {title: string, body: string, date: string, type: string};
+type Post = {title: string, body: string, date: string, type: string, email?: string};
 
-function Career() {
+type Props = {
+    email: any
+}
+
+function Career({email}: Props) {
     const posts:Post[]=[
         {title: "title1 - apple", body: "body1", date: "12/01/20", type: "Academics"},
         {title: "title2", body: "body2 - apple, banana", date: "12/02/20", type: "Academics"},
@@ -29,10 +34,14 @@ function Career() {
 
     return (
         <div>
-            --Career-- <br/>
-            <input type="text" placeholder="Search..." value={search} onChange={updateSearch}></input>
-            <label><br/> Mathcing results: "{search}" </label> 
+            <h1>
+            Career
+            </h1>
+             <br/>
+            <TextField id="filled-basic" label="keyword" variant="filled" value={search} onChange={updateSearch}></TextField> <br/>
+            <label><br/> Matching results: "{search}" </label> 
                 <Filtered 
+                email = {email}
                 type = "Career"
                 search = {search}
                 list = {posts}
@@ -40,6 +49,7 @@ function Career() {
             <br/>
             <label>All posts for Career: </label>
                 <AllPosts 
+                email = {email}
                 type = "Career"
                 list = {posts}
                 />

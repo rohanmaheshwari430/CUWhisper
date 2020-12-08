@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 import Filtered from "./Filtered";
 import AllPosts from "./AllPosts";
-import 'firebase/auth';
-import firebase from 'firebase/app';
-import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 type Post = {title: string, body: string, date: string, type: string, email?: string};
 
-function Academics() {
+type Props = {
+    email: any
+}
+
+function Academics({email}: Props) {
     const posts:Post[]=[
-        {title: "title1 - apple", body: "body1", date: "12/01/20", type: "Academics"},
+        {title: "title1 - apple", body: "body1", date: "12/01/20", type: "Academics", email: "rohanm@gmail.com"},
         {title: "title2", body: "body2 - apple, banana", date: "12/02/20", type: "Academics"},
         {title: "title3 - banana", body: "body3", date: "12/03/20", type: "Academics"},
         {title: "title4 - cat, dog", body: "body4", date: "12/04/20", type: "Academics"},
@@ -33,12 +35,16 @@ function Academics() {
     return (
         
         <div>
-            <Button>Sign in</Button>
-            <Button onClick={() => firebase.auth().signOut()}>Sign Out</Button> <br/>
-            --Academics-- <br/>
-            <input type="text" placeholder="Search..." value={search} onChange={updateSearch}></input>
-            <label><br/> Mathcing results: "{search}" </label> 
+            
+            <h1>
+            Academics
+            </h1>
+             <br/>
+            <TextField id="filled-basic" label="keyword" variant="filled" value={search} onChange={updateSearch}></TextField> <br/>
+            
+            <label><br/> Matching results: "{search}" </label> 
                 <Filtered 
+                email = {email}
                 type = "Academics"
                 search = {search}
                 list = {posts}
@@ -48,6 +54,7 @@ function Academics() {
                 <AllPosts 
                 type = "Academics"
                 list = {posts}
+                email = {email}
                 />
         </div>
     );

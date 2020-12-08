@@ -2,12 +2,8 @@ import React from 'react';
 import CSS from 'csstype';
 import cornell_logo from './cornell_logo.png';
 import whisperlogo from './whisperlogo.png';
-import Authenticated from './Authenticated';
 import 'firebase'
 import 'firebase/auth';
-import firebase from 'firebase/app';
-import Button from '@material-ui/core/Button';
-
 function HomeContent() {
 
     const titleStyle: CSS.Properties = {
@@ -29,19 +25,10 @@ function HomeContent() {
         marginTop: '5rem'
     }
 
-    const ulStyle: CSS.Properties = {
-        marginTop: '5rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-       
-    }
-
 return (
     
         <div>
-        <h1 style={titleStyle}>CUWhisper</h1>
-        <Button>Sign in</Button> <br/>
+            <br/>
         <body>
             Welcome to CUWhisper! This is an interactive and anonymous forum
             where fellow Cornellians can help and learn from each other regarding
