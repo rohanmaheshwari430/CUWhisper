@@ -12,7 +12,18 @@ type Props = {
 
 const Filtered = ({type, search, list, email}: Props) =>{
 
+    //function calling get posts -> localPosts: Post[]
+
+    const getPost = {
+
+        //call get post as Post[] -> pass this list into html code below
+    }
+
     // {list.length<=0 && <p> <br/>No matching results found</p>}
+
+    const deletePost = {
+        //call delete post via post.id
+    }
 
     return(
         <div>

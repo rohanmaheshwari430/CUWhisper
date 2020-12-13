@@ -24,11 +24,28 @@ function CreatePost({email}: Props){
         setDate(newDate);
     }
 
+    //function to call create post (takes in title, body, date) 
+
+    //have three posts functions, one for each category
+    const createPostAcademics= {
+        //call createPost(title, body, date, type: academics, email )
+    }
+    const createPostCareer= {
+        //call createPost(title, body, date, type: career)
+    }
+
+    const createPostClubs = {
+        // call createPost(title, body, date, type: clubs)
+    }
+  
+
+
     return(
         <div>
             <input type="text" placeholder="Title" value={title} onChange={updateTitle}></input><br/>
             <input type="text" placeholder="Body" value={body} onChange={updateBody}></input><br/>
             <input type="text" placeholder="MM/DD/YY" value={date} onChange={updateDate}></input><br/>
+            
             {email != null ? <div><Button>Post</Button> <br/></div>: <div><br/>You must sign in to post.</div>}
         </div>
     )
