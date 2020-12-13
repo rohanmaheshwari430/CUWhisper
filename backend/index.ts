@@ -14,16 +14,6 @@ const app = express();
 app.use(express.json());
 
 /*
-User object to provide posts with author information
-Information in user object should be retrieved from firebase login authentication
-*/
-type User = {
-    "name": string,
-    "gradYear": number,
-    "college": string,
-}
-
-/*
 Post object that will contain user-defined information 
 Only the title, body, date, and comments should be public
 Id will be used to show latest posts, delete posts, etc.
@@ -32,14 +22,13 @@ type Post = {
     "title": string,
     "body": string,
     "date": string,
-    "type": string //academic, club, campus life
+    "type": string, //academic, club, campus life
    // "comments": string[],
-   // "user": User
+    "email": string,
+    "id": string
 };
 
 const posts = db.collection('posts');
-
-
 
 let postCounter = 0; //stores posts collection size
 
@@ -65,6 +54,12 @@ app.get('/getPosts', async (req,res) => {
 //delete
 app.delete('/deletePost', async (req, res) => { //how to use firebase authentication to validate delete priviledge
     
+    const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
+    if((await posts.doc(id).get()).exists) {
+        posts.doc(id.toString()).delete();
+        res.send(true)
+    }
+    /*
     admin.auth()
     .verifyIdToken(req.headers.idtoken as string)
     .then(async() => {
@@ -78,20 +73,23 @@ app.delete('/deletePost', async (req, res) => { //how to use firebase authentica
     .catch(() => {
         res.send('Not Authenticated.');
     })
+    */
     
-  //  postCounter -= 1;
+    postCounter -= 1;
 }); 
 
 app.post('/createPost', (req, res) => {
     const post: Post = req.body;
-    if(post.title == null || post.body == null || post.date == null || post.type == null) { //checking if any fields are empty
+    if(post.title == null || post.body == null || post.date == null || post.type == null || post.email == null) { //checking if any fields are empty
         res.send(false);
     }
-
+    postCounter += 1;
+    post.id = postCounter.toString();
     const newPost = posts.doc(postCounter.toString()); //creating an empty document in posts collection
+   
     newPost.set(post); //filling in the posts fields 
     res.send(true); //sending true for confirmation that post was created
-    postCounter += 1;
+    
 });
 
 app.post('/updatePost', async (req, res) => { //need use firebase authentication to validate update priviledge

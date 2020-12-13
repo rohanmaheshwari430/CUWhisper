@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const express_1 = __importDefault(require("express"));
+require("dns");
 const serviceAccount = require("./cuwhisper-firebase-adminsdk-edbp7-291d992bfa.json");
 firebase_admin_1.default.initializeApp({
     credential: firebase_admin_1.default.credential.cert(serviceAccount),
@@ -38,18 +39,33 @@ app.get('/getPosts', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     and then sort it by highest to lowest id (representing latest to oldest posts)
     */
 }));
+//delete
 app.delete('/deletePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
     if ((yield posts.doc(id.toString()).get()).exists) {
         posts.doc(id.toString()).delete();
         res.send(true);
     }
-    res.send(false);
-    //  postCounter -= 1;
+    /*
+    admin.auth()
+    .verifyIdToken(req.headers.idtoken as string)
+    .then(async() => {
+        const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
+        if((await posts.doc(id.toString()).get()).exists) {
+            posts.doc(id.toString()).delete();
+            res.send(true)
+        }
+        
+    })
+    .catch(() => {
+        res.send('Not Authenticated.');
+    })
+    */
+    postCounter -= 1;
 }));
 app.post('/createPost', (req, res) => {
     const post = req.body;
-    if (post.title == null || post.body == null || post.date == null || post.type == null) { //checking if any fields are empty
+    if (post.title == null || post.body == null || post.date == null || post.type == null || post.email == null) { //checking if any fields are empty
         res.send(false);
     }
     const newPost = posts.doc(postCounter.toString()); //creating an empty document in posts collection
@@ -58,17 +74,20 @@ app.post('/createPost', (req, res) => {
     postCounter += 1;
 });
 app.post('/updatePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const content = req.body.content;
-    const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be made to this endpoint
-    if (content == null) {
-        res.send(false);
-    }
-    posts.doc(id.toString()).update({ "body": content });
-    res.send(true);
+    //compare email of post author with email of logged in user
+    firebase_admin_1.default.auth()
+        .verifyIdToken(req.headers.idtoken)
+        .then(() => __awaiter(void 0, void 0, void 0, function* () {
+        const content = req.body.content;
+        const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be made to this endpoint
+        if (content == null) {
+            res.send(false);
+        }
+        posts.doc(id.toString()).update({ "body": content });
+        res.send(true);
+    }))
+        .catch(() => {
+        res.send('Not Authenticated');
+    });
 }));
 app.listen(8080, () => console.log("Server started"));
-/*
-firebase rules
-
-
-*/ 
