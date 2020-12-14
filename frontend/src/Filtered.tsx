@@ -38,14 +38,13 @@ const Filtered = ({type, search, email}: Props) =>{
         
     };
 
-    useEffect(() => getPosts(), []);
+    useEffect(() => getPosts());
 
     const deletePost = async (id: string) => {
         await axios.delete<string>('/deletePost', {data: {id: id}});
-
+        
     }
 
-   
 
     return(
         <div>

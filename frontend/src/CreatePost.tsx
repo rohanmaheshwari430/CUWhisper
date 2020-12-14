@@ -6,7 +6,7 @@ type Props = {
     email: any
 }
 
-type Song = {
+type Post = {
     readonly title: string;
     readonly body: string;
     readonly date: string;
@@ -38,7 +38,7 @@ function CreatePost({email}: Props){
     const tempID: string = "-1"
 
     const createPost= async (title: string, body: string, date: string, type: string, email: string, id: string) =>{
-        const postBody: Song = {title, body, date, type, email, id};
+        const postBody: Post = {title, body, date, type, email, id};
         const newPost = await axios.post<string>('/createPost', postBody);
     }
 
