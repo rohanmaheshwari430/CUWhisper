@@ -1,9 +1,19 @@
 import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 type Props = {
     email: any
 }
+
+type Song = {
+    readonly title: string;
+    readonly body: string;
+    readonly date: string;
+    readonly type: string;
+    readonly email: string;
+    readonly id: string;
+  };
 
 function CreatePost({email}: Props){
 
@@ -24,8 +34,13 @@ function CreatePost({email}: Props){
         setDate(newDate);
     }
 
-  
+    //function to call create post (takes in title, body, date) 
+    const tempID: string = "-1"
 
+    const createPost= async (title: string, body: string, date: string, type: string, email: string, id: string) =>{
+        const postBody: Song = {title, body, date, type, email, id};
+        const newPost = await axios.post<string>('/createPost', postBody);
+    }
 
     return(
         <div>
@@ -33,9 +48,11 @@ function CreatePost({email}: Props){
             <input type="text" placeholder="Body" value={body} onChange={updateBody}></input><br/>
             <input type="text" placeholder="MM/DD/YY" value={date} onChange={updateDate}></input><br/>
 
-            
-            {email != null ? <div><Button>Post</Button> <br/></div>: <div><br/>You must sign in to post.</div>}
+            {email != null ? <div><br/>Post to...<br/></div>: <div><br/>You must sign in to post.</div>}
 
+            {email != null ? <div><Button onClick={()=>createPost(title, body, date, "Academics", email, tempID)}>Academics</Button> </div>: <div></div>}
+            {email != null ? <div><Button onClick={()=>createPost(title, body, date, "Career", email, tempID)}>Career</Button> </div>: <div></div>}
+            {email != null ? <div><Button onClick={()=>createPost(title, body, date, "Clubs", email, tempID)}>Clubs</Button> </div>: <div></div>}
         </div>
     )
 }
