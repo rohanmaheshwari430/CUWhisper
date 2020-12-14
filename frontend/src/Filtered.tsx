@@ -18,7 +18,7 @@ const Filtered = ({type, search, email}: Props) =>{
     type Post = {title: string, body: string, date: string, type: string, email?: string, id: string};
 
 
-    const [posts, setPosts] = useState<readonly Post[]>([]);
+    const [posts, setPosts] = useState<Post[]>([]);
 
 
     const getPosts = () => {
@@ -44,8 +44,6 @@ const Filtered = ({type, search, email}: Props) =>{
         await axios.delete<string>('/deletePost', {data: {id: id}});
 
     }
-
-   
 
     return(
         <div>

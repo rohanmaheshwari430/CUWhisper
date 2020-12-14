@@ -88,7 +88,7 @@ app.post('/createPost', (req, res) => {
     const newPost = posts.doc(postCounter.toString()); //creating an empty document in posts collection
    
     newPost.set(post); //filling in the posts fields 
-    res.send(true); //sending true for confirmation that post was created
+    res.send(true); //sendi ng true for confirmation that post was created
     
 });
 
