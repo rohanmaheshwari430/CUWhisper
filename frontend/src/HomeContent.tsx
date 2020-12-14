@@ -6,12 +6,6 @@ import 'firebase'
 import 'firebase/auth';
 function HomeContent() {
 
-    const titleStyle: CSS.Properties = {
-        color: 'red',
-        fontFamily:'cursive',
-        textAlign: 'center',
-        fontSize: '3rem'
-    }
 
     const logoStyle: CSS.Properties = {
         float: 'left',

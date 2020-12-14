@@ -1,33 +1,55 @@
 import Button from '@material-ui/core/Button';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import {useState} from 'react'
 
-type Post = {title: string, body: string, date: string, type: string, email?: string};
+
 
 type Props = {
     type: String,
     search: string,
-    list: Post[],
     email: string | null
 }
 
-const Filtered = ({type, search, list, email}: Props) =>{
 
-    //function calling get posts -> localPosts: Post[]
 
-    const getPost = {
+const Filtered = ({type, search, email}: Props) =>{
 
-        //call get post as Post[] -> pass this list into html code below
+    type Post = {title: string, body: string, date: string, type: string, email?: string, id: string};
+
+
+    const [posts, setPosts] = useState<readonly Post[]>([]);
+
+
+    const getPosts = () => {
+        fetch('/getPosts')
+            .then(res => res.json())
+            .then(json => setPosts(json));
+        
+
+        fetch('/getPosts')
+            .then(res => res.text())
+            .then(text => console.log(text))
+
+        /*
+        const res: readonly Post[] = await axios.get('/getPosts');
+        setPosts(res);
+        */
+        
+    };
+
+    useEffect(() => getPosts(), []);
+
+    const deletePost = async (id: string) => {
+        await axios.delete<string>('/deletePost', {data: {id: id}});
+
     }
 
-    // {list.length<=0 && <p> <br/>No matching results found</p>}
-
-    const deletePost = {
-        //call delete post via post.id
-    }
+   
 
     return(
         <div>
-            {list.map(post => 
+            {posts.map(post => 
                 ((post.type===type) && 
                 (post.title.toLowerCase().includes(search.toLowerCase()) || post.body.toLowerCase().includes(search.toLowerCase()))) 
                 && <p key={post.title}> 
@@ -35,7 +57,7 @@ const Filtered = ({type, search, list, email}: Props) =>{
                     Title: {post.title} <br/>
                     Date: {post.date} <br/>
                     Body: {post.body} <br/>                    
-                    {email === post.email ? <div><Button>Delete</Button></div>: <span></span>}
+                    {email === post.email ? <div><Button onClick={() => deletePost(post.id)}>Delete</Button></div>: <span></span>}
                     -----------------------------------------------------
                 </p>
             )}

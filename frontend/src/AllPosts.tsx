@@ -1,19 +1,34 @@
 import Button from '@material-ui/core/Button';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 //import Post from "./Post";
 
 type Post = {title: string, body: string, date: string, type: string, email?: string | null};
 
 type Props = {
     type: String,
-    list: Post[],
     email: string | null
 }
 
-const AllPosts = ({type, list, email}: Props) =>{
+
+
+
+
+
+const AllPosts = ({type, email}: Props) =>{
+
+    const [posts, setPosts] = useState<Post[]>([]);
+
+    const getPost =() => {
+        fetch('/getPosts')
+        .then((res) => res.json())
+        .then((json) => setPosts(json));
+    };
+    
+    useEffect(() => getPost(), []);
+    
     return(
         <div>
-            {list.map(post => (post.type===type) 
+            {posts.map(post => (post.type===type) 
             && <p key={post.title}> 
             <div>
             -----------------------------------------------------<br/>

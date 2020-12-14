@@ -42,7 +42,7 @@ app.get('/getPosts', (req, res) => __awaiter(void 0, void 0, void 0, function* (
 //delete
 app.delete('/deletePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.body.id; //this id will be passed by the post component to the update/delete button component. There, a request will be a made to this endpoint
-    if ((yield posts.doc(id.toString()).get()).exists) {
+    if ((yield posts.doc(id).get()).exists) {
         posts.doc(id.toString()).delete();
         res.send(true);
     }
@@ -68,10 +68,11 @@ app.post('/createPost', (req, res) => {
     if (post.title == null || post.body == null || post.date == null || post.type == null || post.email == null) { //checking if any fields are empty
         res.send(false);
     }
+    postCounter += 1;
+    post.id = postCounter.toString();
     const newPost = posts.doc(postCounter.toString()); //creating an empty document in posts collection
     newPost.set(post); //filling in the posts fields 
     res.send(true); //sending true for confirmation that post was created
-    postCounter += 1;
 });
 app.post('/updatePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //compare email of post author with email of logged in user
