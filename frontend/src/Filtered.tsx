@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import {useState} from 'react'
 import CSS from 'csstype';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 
@@ -33,11 +34,6 @@ const Filtered = ({type, search, email}: Props) =>{
             .then(res => res.text())
             .then(text => console.log(text))
 
-        /*
-        const res: readonly Post[] = await axios.get('/getPosts');
-        setPosts(res);
-        */
-        
     };
 
     useEffect(() => getPosts(), []);
@@ -48,47 +44,36 @@ const Filtered = ({type, search, email}: Props) =>{
     }
 
     const postStyle: CSS.Properties = {
-        border: '1px solid red'
+        border: '1px solid red',
+    }
+    
+    const gridStyle: CSS.Properties = {
+        display: 'flex'
     }
 
     return(
-        <div>
 
-            <Grid container spacing={3}>
-               
-                    <div style={postStyle}>
-                        {posts.map(post => 
-                        ((post.type===type) && 
-                        (post.title.toLowerCase().includes(search.toLowerCase()) || post.body.toLowerCase().includes(search.toLowerCase()))) 
-                        && <p key={post.title}> 
-                        <Grid item xs={4}>
-                            Title: {post.title} <br/>
-                            Date: {post.date} <br/>
-                            Body: {post.body} <br/>                    
-                            {email === post.email ? <div><Button onClick={() => deletePost(post.id)}>Delete</Button></div>: <span></span>}
-                        </Grid>
-                           
-                        </p>
-                        )}
-                    </div>
-                
-                <Grid item xs={4}>
-                    <div style={postStyle}>
-                        Title: Title <br/>
-                        Date: Date <br/>
-                        Body: Body <br/>                    
-                        <div><Button >Delete</Button></div>
-                    </div>
-                </Grid>
+  
 
-
-            </Grid>
-            
-            
-
-
-               
-        </div>
+            <div>
+                {posts.map(post => 
+                    ((post.type===type) && 
+                    (post.title.toLowerCase().includes(search.toLowerCase()) || post.body.toLowerCase().includes(search.toLowerCase()))) 
+                    && <p key={post.title}>
+                        <div style={postStyle}>
+                        Title: {post.title} <br/>
+                        Date: {post.date} <br/>
+                        Body: {post.body} <br/>                    
+                        {email === post.email ? <div><Button onClick={() => deletePost(post.id)}>Delete</Button></div>: <span></span>}  
+                        </div>
+                        
+                </p>        
+                )}
+            </div>
+        
+                        
+                 
+    
     )
 }
 
