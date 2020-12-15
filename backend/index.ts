@@ -118,4 +118,7 @@ app.post('/updatePost', async (req, res) => { //need use firebase authentication
     
 });
 
+app.get('*', (_, response) => response.sendFile(path.join(__dirname, '../../frontend/build/index.html')));
+
+
 app.listen(process.env.PORT || 8080, () => console.log("Server started"));
