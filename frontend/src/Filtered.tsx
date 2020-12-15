@@ -55,20 +55,22 @@ const Filtered = ({type, search, email}: Props) =>{
         <div>
 
             <Grid container spacing={3}>
-                <Grid item xs={4}> 
+               
                     <div style={postStyle}>
                         {posts.map(post => 
                         ((post.type===type) && 
                         (post.title.toLowerCase().includes(search.toLowerCase()) || post.body.toLowerCase().includes(search.toLowerCase()))) 
                         && <p key={post.title}> 
+                        <Grid item xs={4}>
                             Title: {post.title} <br/>
                             Date: {post.date} <br/>
                             Body: {post.body} <br/>                    
                             {email === post.email ? <div><Button onClick={() => deletePost(post.id)}>Delete</Button></div>: <span></span>}
+                        </Grid>
+                           
                         </p>
                         )}
                     </div>
-                </Grid>
                 
                 <Grid item xs={4}>
                     <div style={postStyle}>
