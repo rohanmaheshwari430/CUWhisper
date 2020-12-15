@@ -118,4 +118,4 @@ app.post('/updatePost', async (req, res) => { //need use firebase authentication
     
 });
 
-app.listen(8080, () => console.log("Server started"));
+app.listen(process.env.PORT || 8080, () => console.log("Server started"));
