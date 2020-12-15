@@ -13,7 +13,7 @@ admin.initializeApp({
 
 const app = express();
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use(express.json());
 const db = admin.firestore();
 
