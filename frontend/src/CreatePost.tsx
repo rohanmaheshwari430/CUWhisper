@@ -51,6 +51,9 @@ function CreatePost({email}: Props){
     const createPost= async (title: string, body: string, date: string, type: string, email: string, id: string) =>{
         const postBody: Post = {title, body, date, type, email, id};
         const newPost = await axios.post<string>('/createPost', postBody);
+        setTitle("");
+        setBody("");
+        setDate("");
     }
 
     return(
