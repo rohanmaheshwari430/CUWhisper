@@ -14,8 +14,6 @@ type Props = {
     email: string | null
 }
 
-
-
 const Filtered = ({type, search, email}: Props) =>{
 
     type Post = {title: string, body: string, date: string, type: string, email?: string, id: string};
@@ -52,9 +50,6 @@ const Filtered = ({type, search, email}: Props) =>{
     }
 
     return(
-
-  
-
             <div>
                 {posts.map(post => 
                     ((post.type===type) && 
@@ -65,8 +60,7 @@ const Filtered = ({type, search, email}: Props) =>{
                         Date: {post.date} <br/>
                         Body: {post.body} <br/>                    
                         {email === post.email ? <div><Button onClick={() => deletePost(post.id)}>Delete</Button></div>: <span></span>}  
-                        </div>
-                        
+                        </div>    
                 </p>        
                 )}
             </div>

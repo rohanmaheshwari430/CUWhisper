@@ -17,11 +17,6 @@ app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use(express.json());
 const db = admin.firestore();
 
-/*
-Post object that will contain user-defined information 
-Only the title, body, date, and comments should be public
-Id will be used to show latest posts, delete posts, etc.
-*/
 type Post = {
     "title": string,
     "body": string,
@@ -78,7 +73,7 @@ app.delete('/deletePost', async (req, res) => { //how to use firebase authentica
         res.send('Not Authenticated.');
     })
     */
-    
+
     postCounter -= 1;
 }); 
 
