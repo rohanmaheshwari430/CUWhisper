@@ -1,6 +1,7 @@
 import admin from 'firebase-admin';
 import express from 'express';
-import { resolveNaptr } from 'dns';
+import cors from 'cors';
+import path from 'path';
 
 const serviceAccount = require("./cuwhisper-firebase-adminsdk-edbp7-291d992bfa.json");
 
@@ -11,6 +12,8 @@ admin.initializeApp({
 
 const db = admin.firestore();
 const app = express();
+app.use(cors());
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.use(express.json());
 
 /*
