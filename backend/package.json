@@ -5,8 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "tsc": "tsc -p tsconfig.json",
-    "start": "yarn tsc && node output/index.js"
+    "start": "node output/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
