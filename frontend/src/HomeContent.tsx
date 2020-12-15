@@ -6,22 +6,22 @@ import 'firebase'
 import 'firebase/auth';
 function HomeContent() {
 
-    const titleStyle: CSS.Properties = {
-        color: 'red',
-        fontFamily:'cursive',
-        textAlign: 'center',
-        fontSize: '3rem'
-    }
 
     const logoStyle: CSS.Properties = {
+        marginTop: '15rem',
         float: 'left',
         margin: '10rem',
         marginLeft: '30rem',
+        
     }
 
     const whisperLogoStyle: CSS.Properties = {
         float: 'left',
         marginLeft: '2rem',
+        marginTop: '7rem'
+    }
+
+    const bodyStyle: CSS.Properties = {
         marginTop: '5rem'
     }
 
@@ -29,7 +29,7 @@ return (
     
         <div>
             <br/>
-        <body>
+        <body style ={bodyStyle}>
             Welcome to CUWhisper! This is an interactive and anonymous forum
             where fellow Cornellians can help and learn from each other regarding
             the many opportunities, resources, and events that are available on campus. 

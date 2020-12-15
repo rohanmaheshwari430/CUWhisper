@@ -1,6 +1,7 @@
 import admin from 'firebase-admin';
 import express from 'express';
-import { resolveNaptr } from 'dns';
+import cors from 'cors';
+import path from 'path';
 
 const serviceAccount = require("./cuwhisper-firebase-adminsdk-edbp7-291d992bfa.json");
 
@@ -11,6 +12,8 @@ admin.initializeApp({
 
 const db = admin.firestore();
 const app = express();
+app.use(cors());
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.use(express.json());
 
 /*
@@ -88,7 +91,7 @@ app.post('/createPost', (req, res) => {
     const newPost = posts.doc(postCounter.toString()); //creating an empty document in posts collection
    
     newPost.set(post); //filling in the posts fields 
-    res.send(true); //sending true for confirmation that post was created
+    res.send(true); //sendi ng true for confirmation that post was created
     
 });
 

@@ -3,13 +3,15 @@ import Filtered from "./Filtered";
 import AllPosts from "./AllPosts";
 import TextField from '@material-ui/core/TextField';
 
-type Post = {title: string, body: string, date: string, type: string, email?: string};
+//type Post = {title: string, body: string, date: string, type: string, email?: string};
 
 type Props = {
     email: any
 }
 
 function Clubs({email}: Props) {
+
+    /*
     const posts:Post[]=[
         {title: "title1 - apple", body: "body1", date: "12/01/20", type: "Academics", email: "rohanm@gmail.com"},
         {title: "title2", body: "body2 - apple, banana", date: "12/02/20", type: "Academics", email: "sj598@cornell.edu"},
@@ -24,6 +26,7 @@ function Clubs({email}: Props) {
         {title: "title11 - apple, banana", body: "body11 - cat", date: "12/11/20", type: "Clubs", email: "user11@gmail.com"},
         {title: "title12 - dog", body: "body12 - apple", date: "12/12/20", type: "Clubs", email: "user12@gmail.com"}
     ]
+    */
 
     const [search, setSearch] = useState("");
 
@@ -44,14 +47,12 @@ function Clubs({email}: Props) {
                 email = {email}
                 type = "Clubs"
                 search = {search}
-                list = {posts}
                 />
             <br/>
             <h2>All posts for Clubs: </h2>
                 <AllPosts 
                 email = {email}
                 type = "Clubs"
-                list = {posts}
                 />
         </div>
     );
