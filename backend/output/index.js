@@ -72,7 +72,7 @@ app.post('/createPost', (req, res) => {
     post.id = postCounter.toString();
     const newPost = posts.doc(postCounter.toString()); //creating an empty document in posts collection
     newPost.set(post); //filling in the posts fields 
-    res.send(true); //sending true for confirmation that post was created
+    res.send(true); //sendi ng true for confirmation that post was created
 });
 app.post('/updatePost', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //compare email of post author with email of logged in user

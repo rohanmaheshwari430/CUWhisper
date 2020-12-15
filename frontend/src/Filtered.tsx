@@ -1,7 +1,9 @@
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import {useState} from 'react'
+import CSS from 'csstype';
 
 
 
@@ -38,28 +40,52 @@ const Filtered = ({type, search, email}: Props) =>{
         
     };
 
-    useEffect(() => getPosts());
+    useEffect(() => getPosts(), []);
 
     const deletePost = async (id: string) => {
         await axios.delete<string>('/deletePost', {data: {id: id}});
         
     }
 
+    const postStyle: CSS.Properties = {
+        border: '1px solid red'
+    }
+
     return(
         <div>
-            {posts.map(post => 
-                ((post.type===type) && 
-                (post.title.toLowerCase().includes(search.toLowerCase()) || post.body.toLowerCase().includes(search.toLowerCase()))) 
-                && <p key={post.title}> 
-                    -----------------------------------------------------<br/>
-                    Title: {post.title} <br/>
-                    Date: {post.date} <br/>
-                    Body: {post.body} <br/>                    
-                    {email === post.email ? <div><Button onClick={() => deletePost(post.id)}>Delete</Button></div>: <span></span>}
-                    -----------------------------------------------------
-                </p>
-            )}
 
+            <Grid container spacing={3}>
+                <Grid item xs={4}> 
+                    <div style={postStyle}>
+                        {posts.map(post => 
+                        ((post.type===type) && 
+                        (post.title.toLowerCase().includes(search.toLowerCase()) || post.body.toLowerCase().includes(search.toLowerCase()))) 
+                        && <p key={post.title}> 
+                            Title: {post.title} <br/>
+                            Date: {post.date} <br/>
+                            Body: {post.body} <br/>                    
+                            {email === post.email ? <div><Button onClick={() => deletePost(post.id)}>Delete</Button></div>: <span></span>}
+                        </p>
+                        )}
+                    </div>
+                </Grid>
+                
+                <Grid item xs={4}>
+                    <div style={postStyle}>
+                        Title: Title <br/>
+                        Date: Date <br/>
+                        Body: Body <br/>                    
+                        <div><Button >Delete</Button></div>
+                    </div>
+                </Grid>
+
+
+            </Grid>
+            
+            
+
+
+               
         </div>
     )
 }
