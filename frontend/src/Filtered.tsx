@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import {useState} from 'react'
 import CSS from 'csstype';
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from 'firebase';
 
 
 
@@ -28,16 +29,18 @@ const Filtered = ({type, search, email}: Props) =>{
             .then(json => setPosts(json));
         
 
-        fetch('/getPosts')
-            .then(res => res.text())
-            .then(text => console.log(text))
-
     };
 
     useEffect(() => getPosts(), []);
 
     const deletePost = async (id: string) => {
-        await axios.delete<string>('/deletePost', {data: {id: id}});
+        firebase
+        .auth()
+        .currentUser?.getIdToken(true)
+        .then(async (idtoken) => {
+            await axios.delete<string>('/deletePost', {data: {id: id}, headers: {'idtoken': idtoken}});
+        })
+        
         
     }
 

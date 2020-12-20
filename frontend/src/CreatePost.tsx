@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import CSS from 'csstype';
 import { TextField } from '@material-ui/core';
+import firebase from 'firebase';
 
 type Props = {
     email: any
@@ -48,12 +49,21 @@ function CreatePost({email}: Props){
     //function to call create post (takes in title, body, date) 
     const tempID: string = "-1"
 
-    const createPost= async (title: string, body: string, date: string, type: string, email: string, id: string) =>{
-        const postBody: Post = {title, body, date, type, email, id};
-        const newPost = await axios.post<string>('/createPost', postBody);
-        setTitle("");
-        setBody("");
-        setDate("");
+    const createPost =(title: string, body: string, date: string, type: string, email: string, id: string) =>{
+        
+        firebase
+        .auth()
+        .currentUser?.getIdToken(true)
+        .then(async (idtoken) => {
+            const postBody: Post = {title, body, date, type, email, id};
+            const newPost = await axios.post<string>('/createPost', postBody, {headers: {'idtoken': idtoken}});
+        })
+        .catch((error) => console.log(error));
+
+            setTitle("");
+            setBody("");
+            setDate("");
+       
     }
 
     return(
